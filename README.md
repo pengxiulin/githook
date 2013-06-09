@@ -13,5 +13,5 @@ pengxiulin.github.com
 
 ## TODO
 
-1. Github更新时，更新某目录
+1. Github更新时，更新当前目录
 2. githook开机自启动
