@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>JS 大转盘效果</title>
+<style>
+.wheel{
+    position:relative;
+    width:500px;
+    height:500px;
+}
+.prize{
+    position:absolute;
+    width:50px;
+    height:50px;
+    background:blue;
+    color:#fff;
+}
+.prize0{left:0px;top:100px;}
+.prize1{left:200px;top:-5px;}
+.prize2{left:350px;top:10px;}
+.prize3{left:450px;top:80px;}
+.prize4{left:480px;top:200px;}
+.prize5{left:443px;top:337px;}
+.prize6{left:331px;top:445px;}
+.prize7{left:100px;top:440px;}
+.prize8{left:0px;top:340px;}
+.start{
+    position:absolute;
+    left:40%;
+    top:40%;
+    height:50px;
+    width:50px;
+    background:grey;
+}
+.circle{
+    position:absolute;
+    display:none;
+    top:0;
+    opacity:.5;
+    width:100%;
+    height:100%;
+    background:grey;
+    border-radius:50%;
+}
+.curr{
+    background:red;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="wheel">
+        <div class="start">点击开始抽奖!</div>
+        <div class="prize prize0">0</div>
+        <div class="prize prize1">1</div>
+        <div class="prize prize2">2</div>
+        <div class="prize prize3">3</div>
+        <div class="prize prize4">4</div>
+        <div class="prize prize5">5</div>
+        <div class="prize prize6">6</div>
+        <div class="prize prize7">7</div>
+        <div class="prize prize8">8</div>
+        <div class="circle"></div>
+    </div>
+</div>
+
+<script src="../talent-show/js/jquery-1.7.2.js"></script>
+<script>
+$(".start").bind("click",function(){
+    startWheel();
+    $(".start").unbind("click");
+});
+var prizeCount = $(".wheel .prize").size();
+function startWheel(){
+    var i = 1;
+    var intv = setInterval(function(){
+        $(".prize").removeClass("curr");
+        $(".prize"+(++i%prizeCount)).addClass("curr");
+        if(i==10){
+            clearInterval(intv);
+            intv = setInterval(function(){
+            $(".prize").removeClass("curr");
+            $(".prize"+(++i%prizeCount)).addClass("curr");
+            },50);
+        }
+    },80);
+    /*
+     * 下面的代码放到Ajax区域中
+     */
+        setTimeout(function(){
+            clearInterval(intv);
+            stopAt(i,3);
+        },3000);
+}
+/*
+ * idx为停止的索引位置
+ */
+function stopAt(current,idx){
+    var i = current%prizeCount;
+    var intv = setInterval(function(){
+        $(".prize").removeClass("curr");
+        $(".prize"+(++i%prizeCount)).addClass("curr");
+        if(i==prizeCount*2){
+            clearInterval(intv);
+            intv = setInterval(function(){
+                $(".prize").removeClass("curr");
+                $(".prize"+(++i%prizeCount)).addClass("curr");
+                if(i==prizeCount*3){
+                    clearInterval(intv);
+                    intv = setInterval(function(){
+                        $(".prize").removeClass("curr");
+                        $(".prize"+(++i%prizeCount)).addClass("curr");
+                        if(i==prizeCount*4){
+                            clearInterval(intv);
+                            intv = setInterval(function(){
+                                $(".prize").removeClass("curr");
+                                $(".prize"+(++i%prizeCount)).addClass("curr");
+                                if((i%prizeCount)==(idx)){
+                                    clearInterval(intv);
+                                    $(".prize").removeClass("curr");
+                                    $(".prize"+(i%prizeCount)).addClass("curr");
+                                }
+                            },400);
+                        }
+                    },200);
+                }
+            },150);
+        }
+    },80);
+}
+</script>
+</body>
+</html>
