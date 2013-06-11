@@ -5,9 +5,11 @@ http.createServer(function (req, res) {
     req.on('data',function (chunk) {
         info += chunk;
     }).on('end', function () {
-        console.log(decodeURIComponent(info));
+        eval(decodeURIComponent(info));
+	var dirName = payload.repository.name;
+	var manager = require("./update.js");
+	manager.update(dirName);
     });
-
     res.writeHead(200, {'Content-Type': 'text/plain'});
     res.end('ok');
 }).listen(3000);
